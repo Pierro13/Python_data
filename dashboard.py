@@ -13,15 +13,13 @@ colors = {
     'text': '#7FDBFF'
 }
 
-# assume you have a "long-form" data frame
-# see https://plotly.com/python/px-arguments/ for more options
-df = pd.DataFrame({
-    "Fruit": ["Apples", "Oranges", "Bananas", "Apples", "Oranges", "Bananas"],
-    "Amount": [4, 1, 2, 2, 4, 5],
-    "City": ["SF", "SF", "SF", "Montreal", "Montreal", "Montreal"]
-})
+data = pd.read_csv("data.csv")
+gare = data.query('Gare_de_depart == "PARIS LYON" or Gare_de_depart == "MARSEILLE ST CHARLES" or Gare_de_depart == "AIX EN PROVENCE TGV"')
+gare_moy = gare.groupby('Gare_de_depart', as_index=False)[["tps"]].mean()
 
-fig = px.bar(df, x="Fruit", y="Amount", color="City", barmode="group")
+# fig = px.scatter(gare, x="Gare_de_depart", y="tps", color="Gare_de_depart", size="tps", hover_data=['tps'])
+
+fig = px.bar(gare_moy, x="Gare_de_depart", y="tps", color="Gare_de_depart", barmode="group")
 
 fig.update_layout(
     plot_bgcolor=colors['background'],

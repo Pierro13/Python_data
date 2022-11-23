@@ -1,0 +1,2 @@
+Réaliser un graphique affichant en abscices le temps de trajet et en ordonnées le nombre de gare ayant ce temps de trajet et 
+en ordonnées le nombre .Quand on passe noyter souris sur le point (scatter) on affiche la ou les gares qui ont ce temps de trajet
