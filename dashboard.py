@@ -16,12 +16,21 @@ colors = {
 data = pd.read_csv("data.csv")
 gare = data.query('Gare_de_depart == "PARIS LYON" or Gare_de_depart == "MARSEILLE ST CHARLES" or Gare_de_depart == "AIX EN PROVENCE TGV"')
 gare_moy = gare.groupby('Gare_de_depart', as_index=False)[["tps"]].mean()
+timing = data["tps"].value_counts()
 
 # fig = px.scatter(gare, x="Gare_de_depart", y="tps", color="Gare_de_depart", size="tps", hover_data=['tps'])
 
 fig = px.bar(gare_moy, x="Gare_de_depart", y="tps", color="Gare_de_depart", barmode="group")
 
 fig.update_layout(
+    plot_bgcolor=colors['background'],
+    paper_bgcolor=colors['background'],
+    font_color=colors['text']
+)
+
+fig2 = px.bar(timing, x="Gare_de_depart", y="tps", color="Gare_de_depart", barmode="group")
+
+fig2.update_layout(
     plot_bgcolor=colors['background'],
     paper_bgcolor=colors['background'],
     font_color=colors['text']
@@ -43,6 +52,11 @@ app.layout = html.Div(style={'backgroundColor': colors['background']}, children=
     dcc.Graph(
         id='example-graph-2',
         figure=fig
+    ),
+
+    dcc.Graph(
+        id='example-graph2',
+        figure=fig2
     ),
 
     html.Div(
