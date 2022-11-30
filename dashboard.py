@@ -27,12 +27,13 @@ fig.update_layout(
     font_color=colors['text']
 )
 
-data['tps_arrondi'] = data['tps'].apply(lambda x: round(x/30)*30 if(x < 240 and x > 0) else 240)
+# data['tps_arrondi'] = data['tps'].apply(lambda x: round(x/30)*30 if(x < 240 and x > 0) else 240)
+data['tps_arrondi'] = data['tps'].apply(lambda x: x/60)
 tps_arrondi = data['tps_arrondi'].value_counts()
 
 #creation d'un histogramme avec les temps arrondi à la demi heure et avec un pas de 60 en abscisse
-fig2 = px.histogram(data, x="tps_arrondi",color="tps_arrondi", title="Temps de trajet arrondi à la demi heure", 
-                        labels={"tps":"Temps de trajet (en minutes)"})
+fig2 = px.histogram(data, x="tps_arrondi", title="Temps de trajet arrondi à l'heure", 
+                        labels={"tps_arrondi":"Temps de trajet (en heures)", "count" : "Nombre de trajets"})
 
 fig2.update_layout(
     plot_bgcolor=colors['background'],
