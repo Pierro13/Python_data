@@ -3,6 +3,7 @@
 
 import dash
 from dash import Dash, html, dcc
+import numpy as np
 import plotly.express as px
 import pandas as pd
 
@@ -18,8 +19,6 @@ gare = data.query('Gare_de_depart == "PARIS LYON" or Gare_de_depart == "MARSEILL
 gare_moy = gare.groupby('Gare_de_depart', as_index=False)[["tps"]].mean()
 timing = data["tps"].value_counts()
 
-# fig = px.scatter(gare, x="Gare_de_depart", y="tps", color="Gare_de_depart", size="tps", hover_data=['tps'])
-
 fig = px.bar(gare_moy, x="Gare_de_depart", y="tps", color="Gare_de_depart", barmode="group")
 
 fig.update_layout(
@@ -28,7 +27,11 @@ fig.update_layout(
     font_color=colors['text']
 )
 
-fig2 = px.bar(timing, x="Gare_de_depart", y="tps", color="Gare_de_depart", barmode="group")
+data['tps_arrondi'] = data['tps'].apply(lambda x: round(x/30)*30 if(x < 240 and x > 0) else 240)
+tps_arrondi = data['tps_arrondi'].value_counts()
+
+#creation d'un histogramme avec les temps arrondi à la demi heure et avec un pas de 60 en abscisse
+fig2 = px.histogram(data, x="tps",color="tps_arrondi", title="Temps de trajet arrondi à la demi heure")
 
 fig2.update_layout(
     plot_bgcolor=colors['background'],
@@ -36,26 +39,27 @@ fig2.update_layout(
     font_color=colors['text']
 )
 
+
 app.layout = html.Div(style={'backgroundColor': colors['background']}, children=[
     html.H1(
-        children='Hello Dash',
+        children='Python Dashboard',
         style={
             'textAlign': 'center',
         }
     ),
 
-    html.Div(children='Dash: A web application framework for your data.', style={
+    html.Div(children='Traitement d\'un data set sur les trains', style={
         'textAlign': 'center',
         'color': colors['text']
     }),
 
     dcc.Graph(
-        id='example-graph-2',
+        id='example-graph2',
         figure=fig
     ),
 
     dcc.Graph(
-        id='example-graph2',
+        id='example-graph',
         figure=fig2
     ),
 

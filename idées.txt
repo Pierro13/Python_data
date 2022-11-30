@@ -2,3 +2,19 @@ Réaliser un graphique affichant en abscices le temps de trajet et en ordonnées
 en ordonnées le nombre .Quand on passe noyter souris sur le point (scatter) on affiche la ou les gares qui ont ce temps de trajet
 
 grouper les timmings par intervales de 30 minutes et afficher le nombre de gare par intervalle
+
+ 
+        Gare        temps réel    temps arrondi
+ 1      aix         1h 42         1h 30
+ 2      marseille   4h07          4h 00
+ 3
+
+0h30 -> 0h à 0h45
+1h00 -> 0h45 à 1h15
+1h30 -> 1h15 à 1h45
+2h00 -> 1h45 à 2h15
+2h30 -> 2h15 à 2h45
+3h00 -> 2h45 à 3h15
+3h30 -> 3h15 à 3h45
+4h00 -> 3h45 à 4h15
+4h+  -> 4h15 et plus
