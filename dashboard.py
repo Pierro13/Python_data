@@ -33,7 +33,7 @@ tps_arrondi = data['tps_arrondi'].value_counts()
 
 #creation d'un histogramme avec les temps arrondi à la demi heure et avec un pas de 60 en abscisse
 fig2 = px.histogram(data, x="tps_arrondi", title="Temps de trajet arrondi à l'heure", 
-                        labels={"tps_arrondi":"Temps de trajet (en heures)", "count" : "Nombre de trajets"})
+                        labels={"tps_arrondi":"Temps de trajet (en heures)", "y" : "Nombre de trajets"})
 
 fig2.update_layout(
     plot_bgcolor=colors['background'],

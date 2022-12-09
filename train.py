@@ -1,6 +1,11 @@
 import pandas as pd
 
 data = pd.read_csv("data.csv")
+
+#remane the columns
+
+data.rename(columns={'Gare de départ': 'Gare_de_depart', 'Gare d\'arrivée': 'Gare_d_arrivee', 'Durée moyenne du trajet': 'tps'}, inplace=True)
+
 gare = data.query('Gare_de_depart == "PARIS LYON" or Gare_de_depart == "MARSEILLE ST CHARLES" or Gare_de_depart == "AIX EN PROVENCE TGV"')
 gare_moy = gare.groupby('Gare_de_depart', as_index=False)[["tps"]].mean()
 
@@ -13,11 +18,10 @@ gare_moy = gare.groupby('Gare_de_depart', as_index=False)[["tps"]].mean()
 # print(timing)
 
 #ajout d'une collone "temps arrondi" qui arrondi les temps de trajet à la demi heure
-data['tps_arrondi'] = data['tps'].apply(lambda x: round(x/30)*30 if(x < 240 and x > 0) else 240)
+data['tps_arrondi'] = data['Durée moyenne du trajet'].apply(lambda x: round(x/30)*30 if(x < 240 and x > 0) else 240)
 
 #print de la collone "temps arrondi"
 print(data['tps_arrondi'])
-print("")
 
 #print max et min de "temps arrondi"
 print(data['tps_arrondi'].max())
