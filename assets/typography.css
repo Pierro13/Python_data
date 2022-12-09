@@ -1,11 +1,9 @@
-/*
-red texte for the title
-*/
-
 h1 {
     color: red;
+    margin: 0;
 }
 
-H1 {
-    color: red;
+body {
+    margin: 0;
+    background-color: #000000;
 }

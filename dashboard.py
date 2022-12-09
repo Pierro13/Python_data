@@ -39,13 +39,12 @@ nouveaux_noms = {
 }
 
 colors = {
-    'background': '#111111',
+    'background': '#000000',
     'text': '#7FDBFF'
 }
 
 data = pd.read_csv('data.csv', sep=';', header=0)
 data.rename(columns=nouveaux_noms, inplace=True)
-print(data.columns)
 gare = data.query('Gare_de_depart == "PARIS LYON" or Gare_de_depart == "MARSEILLE ST CHARLES" or Gare_de_depart == "AIX EN PROVENCE TGV"')
 gare_moy = gare.groupby('Gare_de_depart', as_index=False)[["Duree_moyenne_du_trajet"]].mean()
 timing = data["Duree_moyenne_du_trajet"].value_counts()
