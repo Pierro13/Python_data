@@ -95,6 +95,13 @@ app.layout = html.Div(style={'backgroundColor': colors['background']}, children=
         figure=fig2
     ),
 
+    dcc.Graph(
+        id='example-graph3'
+    ),
+    html.P("Mean:"),
+    dcc.Slider(id="mean", min=0, max=150, value=150, 
+        marks={0: '0', 150: '150'}),
+
     html.Div(
         children=[
             html.Iframe(
@@ -108,6 +115,23 @@ app.layout = html.Div(style={'backgroundColor': colors['background']}, children=
         style={'textAlign': 'center', 'color': '#7FDBFF'}
     )
 ])
+
+@app.callback(
+    Output("example-graph3", "figure"), 
+    Input("mean", "value"))
+    
+def display_color(mean):
+    data = pd.read_csv("data.csv")
+
+    circulation = data.groupby("Gare_de_depart", as_index=False)[["nbtrains", "retardtraindepart"]].sum()
+    circulation["moyenne"] = circulation.apply(lambda x: (x.retardtraindepart / x.nbtrains)*100, axis = 1)
+    # print(circulation.columns)
+    #circulation["moyenne"] = circulation.apply(lambda x: print(x.Gare_de_depart), axis=1)
+    #print(circulation["moyenne"])
+    circulation = circulation[ circulation["moyenne"] < mean ]
+
+    fig3 = px.histogram(circulation, x="moyenne", y = "Gare_de_depart", color="Gare_de_depart", range_x=[0,mean], title="Pourcentage de trains en retard par nombre de trains")
+    return fig3
 
 if __name__ == '__main__':
     app.run_server(debug=True)
