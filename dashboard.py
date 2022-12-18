@@ -120,6 +120,8 @@ app.layout = html.Div(style={'backgroundColor': colors['background']}, children=
     Output("example-graph3", "figure"), 
     Input("mean", "value"))
 
+
+
 def display_color(mean):
     data = pd.read_csv("data.csv")
 
