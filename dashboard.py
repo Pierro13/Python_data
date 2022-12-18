@@ -2,7 +2,7 @@
 # visit http://127.0.0.1:8050/ in your web browser.
 
 import dash
-from dash import Dash, html, dcc
+from dash import Dash, dcc, html, Input, Output
 import numpy as np
 import plotly.express as px
 import pandas as pd
@@ -119,7 +119,7 @@ app.layout = html.Div(style={'backgroundColor': colors['background']}, children=
 @app.callback(
     Output("example-graph3", "figure"), 
     Input("mean", "value"))
-    
+
 def display_color(mean):
     data = pd.read_csv("data.csv")
 
