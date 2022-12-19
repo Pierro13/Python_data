@@ -44,8 +44,6 @@ with open("coords.geojson") as f:
 df = pd.read_csv("data.csv", sep=";")
 df.rename(columns=nouveaux_noms, inplace=True)
 
-# q: quelle est la capitalle de la France
-# a: 
 
 #Create the map
 map = folium.Map(location=[48.7190835,2.4609723], tiles='OpenStreetMap', zoom_start=7)

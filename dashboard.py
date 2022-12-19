@@ -57,6 +57,9 @@ fig.update_layout(
     font_color=colors['text']
 )
 
+#list of the most frenquented stations
+
+
 # data['tps_arrondi'] = data['tps'].apply(lambda x: round(x/30)*30 if(x < 240 and x > 0) else 240)
 data['tps_arrondi'] = data['Duree_moyenne_du_trajet'].apply(lambda x: x/60)
 tps_arrondi = data['tps_arrondi'].value_counts()
@@ -123,10 +126,11 @@ app.layout = html.Div(style={'backgroundColor': colors['background']}, children=
 
 
 def display_color(mean):
-    data = pd.read_csv("data.csv")
+    data = pd.read_csv('data.csv', sep=';', header=0)
+    data.rename(columns=nouveaux_noms, inplace=True) 
 
-    circulation = data.groupby("Gare_de_depart", as_index=False)[["nbtrains", "retardtraindepart"]].sum()
-    circulation["moyenne"] = circulation.apply(lambda x: (x.retardtraindepart / x.nbtrains)*100, axis = 1)
+    circulation = data.groupby("Gare_de_depart", as_index=False)[["Nombre_de_trains_en_retard_au_depart", "Retard_moyen_des_trains_en_retard_au_depart"]].sum()
+    circulation["moyenne"] = circulation.apply(lambda x: (x.Retard_moyen_des_trains_en_retard_au_depart / x.Nombre_de_trains_en_retard_au_depart)*100, axis = 1)
     # print(circulation.columns)
     #circulation["moyenne"] = circulation.apply(lambda x: print(x.Gare_de_depart), axis=1)
     #print(circulation["moyenne"])
