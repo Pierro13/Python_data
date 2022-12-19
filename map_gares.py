@@ -37,17 +37,17 @@ nouveaux_noms = {
 }
 
 noms_gares = {
-    'Paris-Gare-de-Lyon': 'PARIS LYON',
-    'Paris-Montparnasse': 'PARIS MONTPARNASSE',
+    'Paris-Gare-de-Lyon': 'PARIS',
+    'Paris-Montparnasse': 'PARIS',
     'Lyon-Part-Dieu': 'LYON',
-    'Paris-Nord': 'Paris-Nord',
+    'Paris-Nord': 'PARIS',
     'MARSEILLE ST CHARLES': 'MARSEILLE',
     'Lille': 'LILLE',
     'Rennes': 'RENNES',
     'Nantes': 'NANTES',
-    'Bordeaux-St-Jean': 'BORDEAUX ST JEAN',
+    'Bordeaux-St-Jean': 'BORDEAUX',
     'Strasbourg': 'STRASBOURG',
-    'Marne-la-Vallée-Chessy': 'MARNE LA VALLEE',
+    'Marne-la-Vallée-Chessy': 'CHESSY',
     'Monpelier': 'MONTPELLIER'
 }
 
@@ -70,7 +70,25 @@ print("stations_corigee = ", stations_corigee)
 #Create the map
 map = folium.Map(location=[48.7190835,2.4609723], tiles='OpenStreetMap', zoom_start=5)
 
+deja_fait = []
+not_in = {}
 
+#Create the markers
+for i in range(len(geodata['features'])):
+
+    if geodata['features'][i]['properties']['commune'] in stations_corigee and geodata['features'][i]['properties']['commune'] not in deja_fait:
+        deja_fait.append(geodata['features'][i]['properties']['commune'])
+    
+        folium.Marker([geodata['features'][i]['geometry']['coordinates'][1],
+                        geodata['features'][i]['geometry']['coordinates'][0]],
+                        popup=geodata['features'][i]['properties']['commune']
+        ).add_to(map)
+    else:
+        not_in[geodata['features'][i]['properties']['commune']] = geodata['features'][i]['properties']['commune']
+
+
+print("deja_fait = ", deja_fait)
+print("not_in = ", not_in)
 
 #Save the map
 map.save(outfile='gare.html')
