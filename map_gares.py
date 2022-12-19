@@ -41,20 +41,37 @@ with open("coords.geojson") as f:
     geodata = json.load(f)
 
 #import tes data from csv
-df = pd.read_csv("data.csv", sep=";")
-df.rename(columns=nouveaux_noms, inplace=True)
+data = pd.read_csv("data.csv", sep=";")
+data.rename(columns=nouveaux_noms, inplace=True)
 
+stations = data["Gare_de_depart"]
+nombre_apparition = stations.value_counts()
+
+stations_filtree = nombre_apparition.loc[nombre_apparition >= 100]
+
+print("station_filtree = \n", stations_filtree)
+print("\n\n")
 
 #Create the map
-map = folium.Map(location=[48.7190835,2.4609723], tiles='OpenStreetMap', zoom_start=7)
+map = folium.Map(location=[48.7190835,2.4609723], tiles='OpenStreetMap', zoom_start=5)
+
+deja_fait = []
 
 #Create the markers
 for i in range(len(geodata['features'])):
-    folium.Marker([geodata['features'][i]['geometry']['coordinates'][1],
-                    geodata['features'][i]['geometry']['coordinates'][0]],
-                    popup=geodata['features'][i]['properties']['commune']
-                ).add_to(map)
 
+    if geodata['features'][i]['properties']['commune'] in stations_filtree and geodata['features'][i]['properties']['commune'] not in deja_fait:
+        print(geodata['features'][i]['properties']['commune'])
+
+        deja_fait.append(geodata['features'][i]['properties']['commune'])
+    
+        folium.Marker([geodata['features'][i]['geometry']['coordinates'][1],
+                        geodata['features'][i]['geometry']['coordinates'][0]],
+                        popup=geodata['features'][i]['properties']['commune']
+        ).add_to(map)
+
+
+print("deja_fait = ", deja_fait)
 
 #Save the map
 map.save(outfile='gare.html')
