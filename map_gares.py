@@ -36,6 +36,21 @@ nouveaux_noms = {
     'Prct retard pour cause prise en compte voyageurs (affluence, gestions PSH, correspondances)'   : 'Prct_retard_pour_cause_prise_en_compte_voyageurs_affluence,_gestions_PSH,_correspondances'
 }
 
+noms_gares = {
+    'Paris-Gare-de-Lyon': 'PARIS LYON',
+    'Paris-Montparnasse': 'PARIS MONTPARNASSE',
+    'Lyon-Part-Dieu': 'LYON',
+    'Paris-Nord': 'Paris-Nord',
+    'MARSEILLE ST CHARLES': 'MARSEILLE',
+    'Lille': 'LILLE',
+    'Rennes': 'RENNES',
+    'Nantes': 'NANTES',
+    'Bordeaux-St-Jean': 'BORDEAUX ST JEAN',
+    'Strasbourg': 'STRASBOURG',
+    'Marne-la-Vallée-Chessy': 'MARNE LA VALLEE',
+    'Monpelier': 'MONTPELLIER'
+}
+
 #read the data from geojson files
 with open("coords.geojson") as f:
     geodata = json.load(f)
@@ -46,32 +61,16 @@ data.rename(columns=nouveaux_noms, inplace=True)
 
 stations = data["Gare_de_depart"]
 nombre_apparition = stations.value_counts()
-
 stations_filtree = nombre_apparition.loc[nombre_apparition >= 100]
-
-print("station_filtree = \n", stations_filtree)
-print("\n\n")
+print("stations_filtree = ", stations_filtree)
+print("\n")
+stations_corigee = stations_filtree.rename(noms_gares)
+print("stations_corigee = ", stations_corigee)
 
 #Create the map
 map = folium.Map(location=[48.7190835,2.4609723], tiles='OpenStreetMap', zoom_start=5)
 
-deja_fait = []
 
-#Create the markers
-for i in range(len(geodata['features'])):
-
-    if geodata['features'][i]['properties']['commune'] in stations_filtree and geodata['features'][i]['properties']['commune'] not in deja_fait:
-        print(geodata['features'][i]['properties']['commune'])
-
-        deja_fait.append(geodata['features'][i]['properties']['commune'])
-    
-        folium.Marker([geodata['features'][i]['geometry']['coordinates'][1],
-                        geodata['features'][i]['geometry']['coordinates'][0]],
-                        popup=geodata['features'][i]['properties']['commune']
-        ).add_to(map)
-
-
-print("deja_fait = ", deja_fait)
 
 #Save the map
 map.save(outfile='gare.html')

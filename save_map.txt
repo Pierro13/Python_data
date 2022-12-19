@@ -1,0 +1,34 @@
+stations_filtree = nombre_apparition.loc[nombre_apparition >= 100]
+
+stations_corigee = stations_filtree.rename(noms_gares)
+print(stations_filtree)
+print("\n\n")
+print(stations_corigee)
+print("\n")
+
+#Create the map
+map = folium.Map(location=[48.7190835,2.4609723], tiles='OpenStreetMap', zoom_start=5)
+
+deja_fait = []
+not_in = {}
+
+for i in range(len(geodata['features'])):
+    if geodata['features'][i]['properties']['commune'] == "MARSEILLE": 
+        print("MARSEILLE")
+
+#Create the markers
+for i in range(len(geodata['features'])):
+
+    if geodata['features'][i]['properties']['commune'] in stations_corigee and geodata['features'][i]['properties']['commune'] not in deja_fait:
+        deja_fait.append(geodata['features'][i]['properties']['commune'])
+    
+        folium.Marker([geodata['features'][i]['geometry']['coordinates'][1],
+                        geodata['features'][i]['geometry']['coordinates'][0]],
+                        popup=geodata['features'][i]['properties']['commune']
+        ).add_to(map)
+    else:
+        not_in[geodata['features'][i]['properties']['commune']] = geodata['features'][i]['properties']['commune']
+
+
+print("deja_fait = ", deja_fait)
+print("not_in = ", not_in)
