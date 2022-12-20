@@ -37,18 +37,19 @@ nouveaux_noms = {
 }
 
 noms_gares = {
-    'Paris-Gare-de-Lyon': 'PARIS',
-    'Paris-Montparnasse': 'PARIS',
-    'Lyon-Part-Dieu': 'LYON',
-    'Paris-Nord': 'PARIS',
+    'PARIS LYON' : 'PARIS',
+    'PARIS MONTPARNASSE': 'PARIS',
+    'LYON PART DIEU': 'LYON',
+    'PARIS EST': 'PARIS',
+    'PARIS NORD': 'PARIS',
     'MARSEILLE ST CHARLES': 'MARSEILLE',
-    'Lille': 'LILLE',
-    'Rennes': 'RENNES',
-    'Nantes': 'NANTES',
-    'Bordeaux-St-Jean': 'BORDEAUX',
-    'Strasbourg': 'STRASBOURG',
-    'Marne-la-Vallée-Chessy': 'CHESSY',
-    'Monpelier': 'MONTPELLIER'
+    'LILLE': 'LILLE',
+    'RENNES': 'RENNES',
+    'NANTES': 'NANTES',
+    'BORDEAUX ST JEAN': 'BORDEAUX',
+    'STRASBOURG': 'STRASBOURG',
+    'MARNE LA VALLEE': 'CHESSY',
+    'MONTPELLIER': 'MONTPELLIER'
 }
 
 #read the data from geojson files
@@ -64,6 +65,8 @@ nombre_apparition = stations.value_counts()
 stations_filtree = nombre_apparition.loc[nombre_apparition >= 100]
 print("stations_filtree = ", stations_filtree)
 print("\n")
+print(type(stations_filtree))
+print("\n")
 stations_corigee = stations_filtree.rename(noms_gares)
 print("stations_corigee = ", stations_corigee)
 
@@ -73,10 +76,16 @@ map = folium.Map(location=[48.7190835,2.4609723], tiles='OpenStreetMap', zoom_st
 deja_fait = []
 not_in = {}
 
+a = 0
+
 #Create the markers
 for i in range(len(geodata['features'])):
 
-    if geodata['features'][i]['properties']['commune'] in stations_corigee and geodata['features'][i]['properties']['commune'] not in deja_fait:
+    if "PARIS" in geodata['features'][i]['properties']['commune'] :
+        # print("PARIS : " , geodata['features'][i]['properties']['commune'])
+        a+=1
+
+    if geodata['features'][i]['properties']['commune'] in stations_corigee:
         deja_fait.append(geodata['features'][i]['properties']['commune'])
     
         folium.Marker([geodata['features'][i]['geometry']['coordinates'][1],
@@ -86,9 +95,12 @@ for i in range(len(geodata['features'])):
     else:
         not_in[geodata['features'][i]['properties']['commune']] = geodata['features'][i]['properties']['commune']
 
-
+print("\n")
 print("deja_fait = ", deja_fait)
-print("not_in = ", not_in)
+# print("\n")
+# print("not_in = ", not_in)
+print("\n")
+print("a = ", a)
 
 #Save the map
 map.save(outfile='gare.html')
