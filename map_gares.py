@@ -52,54 +52,53 @@ noms_gares = {
     'MONTPELLIER': 'MONTPELLIER'
 }
 
-#read the data from geojson files
-with open("coords.geojson") as f:
-    geodata = json.load(f)
+def create_map():
+    #read the data from geojson files
+    with open("coords.geojson") as f:
+        geodata = json.load(f)
 
-#import tes data from csv
-data = pd.read_csv("data.csv", sep=";")
-data.rename(columns=nouveaux_noms, inplace=True)
+    #import tes data from csv
+    data = pd.read_csv("data.csv", sep=";")
+    data.rename(columns=nouveaux_noms, inplace=True)
 
-stations = data["Gare_de_depart"]
-nombre_apparition = stations.value_counts()
-stations_filtree = nombre_apparition.loc[nombre_apparition >= 100]
-print("stations_filtree = ", stations_filtree)
-print("\n")
-print(type(stations_filtree))
-print("\n")
-stations_corigee = stations_filtree.rename(noms_gares)
-print("stations_corigee = ", stations_corigee)
+    stations = data["Gare_de_depart"]
+    nombre_apparition = stations.value_counts()
+    stations_filtree = nombre_apparition.loc[nombre_apparition >= 100]
+    # print("stations_filtree = ", stations_filtree)
+    # print("\n")
+    # print(type(stations_filtree))
+    # print("\n")
+    stations_corigee = stations_filtree.rename(noms_gares)
+    # print("stations_corigee = ", stations_corigee)
 
-#Create the map
-map = folium.Map(location=[46.227638,2.213749], tiles='OpenStreetMap', zoom_start=6)
+    #Create the map
+    map = folium.Map(location=[46.227638,2.213749], tiles='OpenStreetMap', zoom_start=6)
 
-deja_fait = []
-not_in = {}
+    deja_fait = []
+    not_in = {}
 
-a = 0
+    #Create the markers
+    for i in range(len(geodata['features'])):
 
-#Create the markers
-for i in range(len(geodata['features'])):
+        if geodata['features'][i]['properties']['commune'] in stations_corigee and geodata['features'][i]['properties']['commune'] not in deja_fait:
+            deja_fait.append(geodata['features'][i]['properties']['commune'])
+        
+            if geodata['features'][i]['properties']['libelle'] == "Chessy":
+                deja_fait.pop()
+                continue
 
-    if geodata['features'][i]['properties']['commune'] in stations_corigee and geodata['features'][i]['properties']['commune'] not in deja_fait:
-        deja_fait.append(geodata['features'][i]['properties']['commune'])
-    
-        if geodata['features'][i]['properties']['commune'] == "CHESSY" and geodata['features'][i]['properties']['commune'] != "Marne-la-Vall\u00e9e-Chessy":
-            continue
+            folium.Marker([geodata['features'][i]['geometry']['coordinates'][1],
+                            geodata['features'][i]['geometry']['coordinates'][0]],
+                            popup=geodata['features'][i]['properties']['libelle']
+            ).add_to(map)
+        else:
+            not_in[geodata['features'][i]['properties']['commune']] = geodata['features'][i]['properties']['commune']
 
-        folium.Marker([geodata['features'][i]['geometry']['coordinates'][1],
-                        geodata['features'][i]['geometry']['coordinates'][0]],
-                        popup=geodata['features'][i]['properties']['libelle']
-        ).add_to(map)
-    else:
-        not_in[geodata['features'][i]['properties']['commune']] = geodata['features'][i]['properties']['commune']
+    # print("\n")
+    # print("deja_fait = ", deja_fait)
 
-print("\n")
-print("deja_fait = ", deja_fait)
-# print("\n")
-# print("not_in = ", not_in)
-print("\n")
-print("a = ", a)
+    #Save the map
+    map.save(outfile='gare.html')
 
-#Save the map
-map.save(outfile='gare.html')
+if __name__ == '__main__':
+    create_map()

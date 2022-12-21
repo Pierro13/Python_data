@@ -7,6 +7,8 @@ import numpy as np
 import plotly.express as px
 import pandas as pd
 
+import map_gares
+
 app = Dash(__name__)
 
 nouveaux_noms = {
@@ -74,6 +76,7 @@ fig2.update_layout(
     font_color=colors['text']
 )
 
+map_gares.create_map()
 
 app.layout = html.Div(style={'backgroundColor': colors['background']}, children=[
     html.H1(
@@ -109,9 +112,9 @@ app.layout = html.Div(style={'backgroundColor': colors['background']}, children=
         children=[
             html.Iframe(
                 id='map',
-                srcDoc=open('map3.html', 'r').read(),
+                srcDoc=open('gare.html', 'r').read(),
                 width='50%',
-                height='400'
+                height='800'
             )
         ],
         className='row',
