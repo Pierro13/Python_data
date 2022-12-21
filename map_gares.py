@@ -71,7 +71,7 @@ stations_corigee = stations_filtree.rename(noms_gares)
 print("stations_corigee = ", stations_corigee)
 
 #Create the map
-map = folium.Map(location=[48.7190835,2.4609723], tiles='OpenStreetMap', zoom_start=5)
+map = folium.Map(location=[46.227638,2.213749], tiles='OpenStreetMap', zoom_start=6)
 
 deja_fait = []
 not_in = {}
@@ -81,16 +81,15 @@ a = 0
 #Create the markers
 for i in range(len(geodata['features'])):
 
-    if "PARIS" in geodata['features'][i]['properties']['commune'] :
-        # print("PARIS : " , geodata['features'][i]['properties']['commune'])
-        a+=1
-
-    if geodata['features'][i]['properties']['commune'] in stations_corigee:
+    if geodata['features'][i]['properties']['commune'] in stations_corigee and geodata['features'][i]['properties']['commune'] not in deja_fait:
         deja_fait.append(geodata['features'][i]['properties']['commune'])
     
+        if geodata['features'][i]['properties']['commune'] == "CHESSY" and geodata['features'][i]['properties']['commune'] != "Marne-la-Vall\u00e9e-Chessy":
+            continue
+
         folium.Marker([geodata['features'][i]['geometry']['coordinates'][1],
                         geodata['features'][i]['geometry']['coordinates'][0]],
-                        popup=geodata['features'][i]['properties']['commune']
+                        popup=geodata['features'][i]['properties']['libelle']
         ).add_to(map)
     else:
         not_in[geodata['features'][i]['properties']['commune']] = geodata['features'][i]['properties']['commune']
