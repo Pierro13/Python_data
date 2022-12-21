@@ -72,7 +72,7 @@ def create_map():
     # print("stations_corigee = ", stations_corigee)
 
     #Create the map
-    map = folium.Map(location=[46.227638,2.213749], tiles='OpenStreetMap', zoom_start=6)
+    map = folium.Map(location=[46.94638,2.213749], tiles='OpenStreetMap', zoom_start=6)
 
     deja_fait = []
     not_in = {}

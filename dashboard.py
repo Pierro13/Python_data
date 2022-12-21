@@ -110,11 +110,12 @@ app.layout = html.Div(style={'backgroundColor': colors['background']}, children=
 
     html.Div(
         children=[
+            "Map of the most frequented stations : ",
             html.Iframe(
                 id='map',
                 srcDoc=open('gare.html', 'r').read(),
                 width='50%',
-                height='800'
+                height='600'
             )
         ],
         className='row',
