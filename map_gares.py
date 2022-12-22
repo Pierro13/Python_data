@@ -100,5 +100,15 @@ def create_map():
     #Save the map
     map.save(outfile='gare.html')
 
+    # print(type(stations_filtree))
+    gare_index = stations_filtree.index
+    # print(gare_index)
+    # print(type(gare_index))
+
+    # for name in gare_index:
+    #     print(name)
+
+    return gare_index
+
 if __name__ == '__main__':
     create_map()

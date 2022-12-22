@@ -45,13 +45,39 @@ colors = {
     'text': '#7FDBFF'
 }
 
+index_gares = map_gares.create_map()
+
 data = pd.read_csv('data.csv', sep=';', header=0)
 data.rename(columns=nouveaux_noms, inplace=True)
 gare = data.query('Gare_de_depart == "PARIS LYON" or Gare_de_depart == "MARSEILLE ST CHARLES" or Gare_de_depart == "AIX EN PROVENCE TGV"')
+
+
+query_parameters = index_gares
+list_index_gares = index_gares.tolist()
+
+for param in list_index_gares:
+    gare2 = data.query(f'Gare_de_depart == "{param}"')
+    gare2_moy = gare2.groupby('Gare_de_depart', as_index=False)[["Duree_moyenne_du_trajet"]].mean()
+
 gare_moy = gare.groupby('Gare_de_depart', as_index=False)[["Duree_moyenne_du_trajet"]].mean()
+
 timing = data["Duree_moyenne_du_trajet"].value_counts()
+timing2 = data["Duree_moyenne_du_trajet"].value_counts()
 
 fig = px.bar(gare_moy, x="Gare_de_depart", y="Duree_moyenne_du_trajet", color="Gare_de_depart", barmode="group")
+
+compteur = data['Gare_de_depart'].value_counts()
+compteur2 = compteur.where(compteur > 100)
+compteur2 = compteur2.dropna()
+
+figure = px.bar(y = compteur2, x = compteur2.index, barmode="group",
+                title="Nombre de trajets par gare de départ \n Ppur les gares ayant plus de 100 trajets au départ")
+
+figure.update_layout(
+    plot_bgcolor=colors['background'],
+    paper_bgcolor=colors['background'],
+    font_color=colors['text']
+)
 
 fig.update_layout(
     plot_bgcolor=colors['background'],
@@ -76,8 +102,6 @@ fig2.update_layout(
     font_color=colors['text']
 )
 
-map_gares.create_map()
-
 app.layout = html.Div(style={'backgroundColor': colors['background']}, children=[
     html.H1(
         children='Python Dashboard',
@@ -92,9 +116,14 @@ app.layout = html.Div(style={'backgroundColor': colors['background']}, children=
     }),
 
     dcc.Graph(
-        id='example-graph2',
-        figure=fig
+        id='graph-test',
+        figure=figure
     ),
+
+    # dcc.Graph(
+    #     id='example-graph2',
+    #     figure=fig
+    # ),
 
     dcc.Graph(
         id='example-graph',
