@@ -49,8 +49,6 @@ index_gares = map_gares.create_map()
 
 data = pd.read_csv('data.csv', sep=';', header=0)
 data.rename(columns=nouveaux_noms, inplace=True)
-gare = data.query('Gare_de_depart == "PARIS LYON" or Gare_de_depart == "MARSEILLE ST CHARLES" or Gare_de_depart == "AIX EN PROVENCE TGV"')
-
 
 query_parameters = index_gares
 list_index_gares = index_gares.tolist()
@@ -59,40 +57,24 @@ for param in list_index_gares:
     gare2 = data.query(f'Gare_de_depart == "{param}"')
     gare2_moy = gare2.groupby('Gare_de_depart', as_index=False)[["Duree_moyenne_du_trajet"]].mean()
 
-gare_moy = gare.groupby('Gare_de_depart', as_index=False)[["Duree_moyenne_du_trajet"]].mean()
-
-timing = data["Duree_moyenne_du_trajet"].value_counts()
-timing2 = data["Duree_moyenne_du_trajet"].value_counts()
-
-fig = px.bar(gare_moy, x="Gare_de_depart", y="Duree_moyenne_du_trajet", color="Gare_de_depart", barmode="group")
-
 compteur = data['Gare_de_depart'].value_counts()
 compteur2 = compteur.where(compteur > 100)
 compteur2 = compteur2.dropna()
 
 figure = px.bar(y = compteur2, x = compteur2.index, barmode="group",
-                title="Nombre de trajets par gare de départ \n Ppur les gares ayant plus de 100 trajets au départ")
+                title="Nombre de trajets par gare de départ Pour les gares ayant plus de 100 trajets au départ")
 
 figure.update_layout(
     plot_bgcolor=colors['background'],
     paper_bgcolor=colors['background'],
-    font_color=colors['text']
+    font_color=colors['text'],
+    xaxis_title='Noms des gares',
+    yaxis_title='Nombre de trajets'
 )
 
-fig.update_layout(
-    plot_bgcolor=colors['background'],
-    paper_bgcolor=colors['background'],
-    font_color=colors['text']
-)
-
-#list of the most frenquented stations
-
-
-# data['tps_arrondi'] = data['tps'].apply(lambda x: round(x/30)*30 if(x < 240 and x > 0) else 240)
 data['tps_arrondi'] = data['Duree_moyenne_du_trajet'].apply(lambda x: x/60)
 tps_arrondi = data['tps_arrondi'].value_counts()
 
-#creation d'un histogramme avec les temps arrondi à la demi heure et avec un pas de 60 en abscisse
 fig2 = px.histogram(data, x="tps_arrondi", title="Temps de trajet arrondi à l'heure", 
                         labels={"tps_arrondi":"Temps de trajet (en heures)", "y" : "Nombre de trajets"})
 
@@ -120,10 +102,19 @@ app.layout = html.Div(style={'backgroundColor': colors['background']}, children=
         figure=figure
     ),
 
-    # dcc.Graph(
-    #     id='example-graph2',
-    #     figure=fig
-    # ),
+    html.Div(
+        children=[
+            "Map de garres les plus fréquentés : ",
+            html.Iframe(
+                id='map',
+                srcDoc=open('gare.html', 'r').read(),
+                width='50%',
+                height='600'
+            )
+        ],
+        className='row',
+        style={'textAlign': 'center', 'color': '#7FDBFF'}
+    ),
 
     dcc.Graph(
         id='example-graph',
@@ -135,21 +126,7 @@ app.layout = html.Div(style={'backgroundColor': colors['background']}, children=
     ),
     html.P("Mean:"),
     dcc.Slider(id="mean", min=0, max=150, value=150, 
-        marks={0: '0', 150: '150'}),
-
-    html.Div(
-        children=[
-            "Map of the most frequented stations : ",
-            html.Iframe(
-                id='map',
-                srcDoc=open('gare.html', 'r').read(),
-                width='50%',
-                height='600'
-            )
-        ],
-        className='row',
-        style={'textAlign': 'center', 'color': '#7FDBFF'}
-    )
+        marks={0: '0', 150: '150'})
 ])
 
 @app.callback(
