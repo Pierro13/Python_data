@@ -45,18 +45,18 @@ colors = {
     'text': '#7FDBFF'
 }
 
-index_gares = map_gares.create_map()
-
 data = pd.read_csv('data.csv', sep=';', header=0)
 data.rename(columns=nouveaux_noms, inplace=True)
 
-query_parameters = index_gares
+########### MAP + DATA PREMIER GRAPH GRAPH ###########
+index_gares = map_gares.create_map()
+
+########### PREMIER GRAPH ###########
+
 list_index_gares = index_gares.tolist()
-
 for param in list_index_gares:
-    gare2 = data.query(f'Gare_de_depart == "{param}"')
-    gare2_moy = gare2.groupby('Gare_de_depart', as_index=False)[["Duree_moyenne_du_trajet"]].mean()
-
+    gare = data.query(f'Gare_de_depart == "{param}"')
+    gare_moy = gare.groupby('Gare_de_depart', as_index=False)[["Duree_moyenne_du_trajet"]].mean()
 compteur = data['Gare_de_depart'].value_counts()
 compteur2 = compteur.where(compteur > 100)
 compteur2 = compteur2.dropna()
@@ -72,17 +72,21 @@ figure.update_layout(
     yaxis_title='Nombre de trajets'
 )
 
+########### DEUXIEME GRAPH ###########
+
 data['tps_arrondi'] = data['Duree_moyenne_du_trajet'].apply(lambda x: x/60)
 tps_arrondi = data['tps_arrondi'].value_counts()
 
-fig2 = px.histogram(data, x="tps_arrondi", title="Temps de trajet arrondi à l'heure", 
-                        labels={"tps_arrondi":"Temps de trajet (en heures)", "y" : "Nombre de trajets"})
+fig2 = px.histogram(data, x="tps_arrondi", labels={"tps_arrondi":"Temps de trajet (en heures)", "y" : "Nombre de trajets"})
 
 fig2.update_layout(
     plot_bgcolor=colors['background'],
     paper_bgcolor=colors['background'],
-    font_color=colors['text']
+    font_color=colors['text'],
+    title="Temps de trajet arrondi à l'heure"
 )
+
+########### STRUCTURE HTML ###########
 
 app.layout = html.Div(style={'backgroundColor': colors['background']}, children=[
     html.H1(
@@ -129,11 +133,11 @@ app.layout = html.Div(style={'backgroundColor': colors['background']}, children=
         marks={0: '0', 150: '150'})
 ])
 
+########### TROISIEME GRAPH ###########
+
 @app.callback(
     Output("example-graph3", "figure"), 
     Input("mean", "value"))
-
-
 
 def display_color(mean):
     data = pd.read_csv('data.csv', sep=';', header=0)
