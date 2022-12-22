@@ -1,5 +1,5 @@
-# Run this app with `python app.py` and
-# visit http://127.0.0.1:8050/ in your web browser.
+# Explique comment faire marcher et comment visioner le dashbaord
+# 
 
 import dash
 from dash import Dash, dcc, html, Input, Output
@@ -85,7 +85,7 @@ fig2.update_layout(
     font_color=colors['text'],
     title="Temps de trajet arrondi à l'heure"
 )
-
+######################################
 ########### STRUCTURE HTML ###########
 
 app.layout = html.Div(style={'backgroundColor': colors['background']}, children=[
@@ -101,15 +101,30 @@ app.layout = html.Div(style={'backgroundColor': colors['background']}, children=
         'color': colors['text']
     }),
 
+    ########### PREMIER GRAPH ###########
+
     dcc.Graph(
         id='graph-test',
         figure=figure
     ),
 
+    html.Div(style={'height': '80px'}),
+
+    ########### MAP ###########
+
     html.Div(
         children=[
-            "Map de garres les plus fréquentés : ",
-            html.Iframe(
+            "Map des gares ayant plus de 100 trajets au départ",
+            html.Br(),
+            "Cliquez sur une gare pour afficher les informations",
+            html.Br()
+            ],
+        style={'textAlign': 'center', 'color': '#7FDBFF', 'display': 'block'}
+    ),
+
+    html.Div(
+        children=[
+        html.Iframe(
                 id='map',
                 srcDoc=open('gare.html', 'r').read(),
                 width='50%',
@@ -117,13 +132,27 @@ app.layout = html.Div(style={'backgroundColor': colors['background']}, children=
             )
         ],
         className='row',
-        style={'textAlign': 'center', 'color': '#7FDBFF'}
+        style={'display': 'flex', 'justify-content': 'center', 'color': '#7FDBFF'}
     ),
+
+    html.Div(
+        children=[
+            "Pour plus de clareté sur la carte, les gares on été regroupées par villes",
+            html.Br(),
+            "C'est pour quoi a Paris par exemple, il n'y a qu'une seul gare",
+            html.Br()
+            ],
+        style={'textAlign': 'center', 'color': '#7FDBFF', 'display': 'block'}
+    ),
+
+    ########### DEUXIEME GRAPH ###########
 
     dcc.Graph(
         id='example-graph',
         figure=fig2
     ),
+
+    ########### TROISIEME GRAPH ###########
 
     dcc.Graph(
         id='example-graph3'
@@ -132,7 +161,7 @@ app.layout = html.Div(style={'backgroundColor': colors['background']}, children=
     dcc.Slider(id="mean", min=0, max=150, value=150, 
         marks={0: '0', 150: '150'})
 ])
-
+#######################################
 ########### TROISIEME GRAPH ###########
 
 @app.callback(
@@ -145,9 +174,6 @@ def display_color(mean):
 
     circulation = data.groupby("Gare_de_depart", as_index=False)[["Nombre_de_trains_en_retard_au_depart", "Retard_moyen_des_trains_en_retard_au_depart"]].sum()
     circulation["moyenne"] = circulation.apply(lambda x: (x.Retard_moyen_des_trains_en_retard_au_depart / x.Nombre_de_trains_en_retard_au_depart)*100, axis = 1)
-    # print(circulation.columns)
-    #circulation["moyenne"] = circulation.apply(lambda x: print(x.Gare_de_depart), axis=1)
-    #print(circulation["moyenne"])
     circulation = circulation[ circulation["moyenne"] < mean ]
 
     fig3 = px.histogram(circulation, x="moyenne", y = "Gare_de_depart", color="Gare_de_depart", range_x=[0,mean], title="Pourcentage de trains en retard par nombre de trains")

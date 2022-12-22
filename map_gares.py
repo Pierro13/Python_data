@@ -89,7 +89,7 @@ def create_map():
 
             folium.Marker([geodata['features'][i]['geometry']['coordinates'][1],
                             geodata['features'][i]['geometry']['coordinates'][0]],
-                            popup=geodata['features'][i]['properties']['libelle']
+                            popup=geodata['features'][i]['properties']['commune']
             ).add_to(map)
         else:
             not_in[geodata['features'][i]['properties']['commune']] = geodata['features'][i]['properties']['commune']
