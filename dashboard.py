@@ -143,7 +143,7 @@ app.layout = html.Div(
 
     html.Div(
         children=[
-            "Ce dashboard est réalisé à partir de deux data set de la SNCF sur les trains en France.",
+            "Ce dashboard est réalisé à partir de deux data set de la SNCF sur les trains en France de janvier 2018 à fin 2022. (date de téléchargement du dataset)",
             html.Br(),
             html.Br(),
             " Le fichier CSV contient des informations sur la régularité des trains TGV sur une période donnée,"
@@ -161,7 +161,7 @@ app.layout = html.Div(
             " - Nombre de trains annulés - Nombre",
             html.Br(),
             html.Br(),
-            "Il contient d'autres colonnes avec des pourcentages en fonction de certaines données. Comme par exemple la régularité des trains,"
+            "Il contient d'autres colonnes avec des pourcentages en fonction de certaines données, comme par exemple la régularité des trains,"
             " ce qui désigne" 
             " le pourcentage de trains qui arrivent à l'heure à leur destination finale. Cette donnée est calculée en comparant le nombre"
             " de trains arrivés à l'heure à leur destination finale au nombre total de trains prévus pour cette ligne."
@@ -211,7 +211,7 @@ app.layout = html.Div(
 
     html.Div(
         children=[
-            "Cette carte ci dessous représente toutes les gares dans les villes ayant au moins une gare importante.",
+            "Cette carte ci dessous place les gares les plus importantes sur une carte de France.",
             html.Br(),
             "Une gare est considérée comme importante si elle a plus de 100 trajets au départ. (cf graphique ci dessus)",
             html.Br(),
@@ -355,5 +355,5 @@ if __name__ == '__main__':
 
     #En passant le paramètre à True ou false cela permet entre autre d'afficher ou non le boutton bleu du mode
     # de debug de Dash
-    # app.run_server(debug=True)
-    app.run_server(debug=False)
+    app.run_server(debug=True)
+    # app.run_server(debug=False)

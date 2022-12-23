@@ -50,6 +50,10 @@ noms_gares = {
     'MONTPELLIER': 'MONTPELLIER'
 }
 
+Grande_gare = ["Paris-Gare-de-Lyon", "Paris-Montparnasse", "Paris-st-Lazare", "Paris-Nord", "Paris-Austerlitz",
+                "Marne-la-Vallée-Chessy", "Lille-Flandres", "Nantes", "Lyon-Perrache",
+                "Bordeaux-St-Jean", "Montpellier-St-Roch", "Marseille-St-Charles", "Strasbourg-Ville"]
+
 def create_map():
     with open("coords.geojson") as f:
         geodata = json.load(f)
@@ -70,9 +74,8 @@ def create_map():
 
     for i in range(len(geodata['features'])):
 
-        # if geodata['features'][i]['properties']['commune'] in stations_corigee and geodata['features'][i]['properties']['commune'] not in deja_fait:
-        if geodata['features'][i]['properties']['commune'] in stations_corigee:
-            deja_fait.append(geodata['features'][i]['properties']['commune'])
+        if geodata['features'][i]['properties']['libelle'] in Grande_gare and geodata['features'][i]['properties']['libelle'] not in deja_fait:
+            deja_fait.append(geodata['features'][i]['properties']['libelle'])
         
             if geodata['features'][i]['properties']['libelle'] == "Chessy":
                 deja_fait.pop()
