@@ -227,23 +227,6 @@ app.layout = html.Div(
         }
     ),
 
-    # html.Div(
-    #     children=[
-    #         "Pour plus de clareté sur la carte, les gares on été regroupées par villes",
-    #         html.Br(),
-    #         "C'est pour quoi a Paris par exemple, il n'y a qu'une seul gare",
-    #         html.Br()
-    #         ],
-    #     style={
-    #         'textAlign': 'center', 
-    #         'color': colors['text'], 
-    #         'display': 'block',
-    #         'backgroundColor': colors['background'],
-    #         'margin-bottom': '20px',
-    #         'margin-top': '20px'
-    #         }
-    # ),
-
     ########### DEUXIEME GRAPH ###########
 
     dcc.Graph(
