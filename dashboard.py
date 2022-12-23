@@ -292,8 +292,16 @@ app.layout = html.Div(
         min=0, 
         max=150, 
         value=150, 
-        marks={0: '0', 150: '150'}
+        marks={0: '0', 150: '150'},
+        tooltip={"placement": "bottom", "always_visible": True}
     ),
+
+    # dcc.Slider(
+    #     0, 10, 1, 
+    #     value=5, 
+    #     marks=None,
+    #     tooltip={"placement": "bottom", "always_visible": True}
+    # ),
 
     html.Footer(
     children=[
