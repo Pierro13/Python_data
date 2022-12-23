@@ -1,3 +1,4 @@
+#imports généraux
 import dash
 from dash import Dash, dcc, html, Input, Output
 import numpy as np
@@ -5,10 +6,13 @@ import plotly.express as px
 import pandas as pd
 import random
 
+#import de notre fichier map_gares.py qui nous permets de créer la map et nous retourne la liste des gares les plus fréquentées
 import map_gares
 
+#on crée notre app
 app = Dash(__name__)
 
+#on crée un dictionnaire qui nous permettra de renommer les colonnes de notre dataframe
 nouveaux_noms = {
     'Date'                                                                                          : 'Date',
     'Service'                                                                                       : 'Service',
@@ -38,20 +42,25 @@ nouveaux_noms = {
     'Prct retard pour cause prise en compte voyageurs (affluence, gestions PSH, correspondances)'   : 'Prct_retard_pour_cause_prise_en_compte_voyageurs_affluence,_gestions_PSH,_correspondances'
 }
 
+# Le code ci-dessus crée un dictionnaire appelé colors. Le dictionnaire a trois clés : 
+# background, texte, et axe. Chaque clé a une valeur qui est une chaîne de caractères.
 colors = {
     'background': '#C4F5FC',
     'text': '#000000',
     'axis' : '#000000'
 }
 
+# on lit notre fichier csv et on renome les colonnes grâce à notre dictionnaire
 data = pd.read_csv('data.csv', sep=';', header=0)
 data.rename(columns=nouveaux_noms, inplace=True)
 
 ########### MAP + DATA PREMIER GRAPH GRAPH ###########
+# on génere la map et on récupère la liste des gare les plus fréquentées
 index_gares = map_gares.create_map()
 
 ########### PREMIER GRAPH ###########
 
+# traitement des données concernant les gares les plus fréquentées
 list_index_gares = index_gares.tolist()
 for param in list_index_gares:
     gare = data.query(f'Gare_de_depart == "{param}"')
@@ -60,8 +69,10 @@ compteur = data['Gare_de_depart'].value_counts()
 compteur2 = compteur.where(compteur > 100)
 compteur2 = compteur2.dropna()
 
+# création du graphique
 figure = px.bar(y = compteur2, x = compteur2.index, barmode="group")    
 
+# mise en forme du graphique
 figure.update_layout(
     plot_bgcolor=colors['background'],
     paper_bgcolor=colors['background'],
@@ -73,18 +84,23 @@ figure.update_layout(
     yaxis = dict(linecolor=colors['axis']),
 )
 
+# ajout de bordure noir autour du graphique
 figure.update_traces(marker_line_color='black', marker_line_width=1)
 
+# ajout d'une couleur aléatoire a chaque barre
 random_colors = [random.choice(['red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'violet']) for i in range(len(data))]
 figure.update_traces(marker_color=random_colors)
 
 ########### DEUXIEME GRAPH ###########
 
+# traitement des données concernant le temps de trajet moyen par gare
 data['tps_arrondi'] = data['Duree_moyenne_du_trajet'].apply(lambda x: x/60)
 tps_arrondi = data['tps_arrondi'].value_counts()
 
+# création du graphique
 fig = px.histogram(data, x="tps_arrondi", labels={"tps_arrondi":"Temps de trajet (en heures)", "y" : "Nombre de trajets"})
 
+# mise en forme du graphique
 fig.update_layout(
     plot_bgcolor=colors['background'],
     paper_bgcolor=colors['background'],
@@ -96,6 +112,7 @@ fig.update_layout(
     yaxis = dict(linecolor=colors['axis'])
 )
 
+# ajout de bordure noire au graphe
 fig.update_traces(marker_line_color='black', marker_line_width=2)
 
 ######################################
@@ -303,15 +320,15 @@ app.layout = html.Div(
     Input("mean", "value"))
 
 def display_color(mean):
-    data = pd.read_csv('data.csv', sep=';', header=0)
-    data.rename(columns=nouveaux_noms, inplace=True) 
-
+    # traitement des données selon le nombre de trains en retard par rapport au retard moyen des trains et calcul de la moyenne
     circulation = data.groupby("Gare_de_depart", as_index=False)[["Nombre_de_trains_en_retard_au_depart", "Retard_moyen_des_trains_en_retard_au_depart"]].sum()
     circulation["moyenne"] = circulation.apply(lambda x: (x.Retard_moyen_des_trains_en_retard_au_depart / x.Nombre_de_trains_en_retard_au_depart)*100, axis = 1)
     circulation = circulation[ circulation["moyenne"] < mean ]
 
+    # on créer l'histogramme
     fig3 = px.histogram(circulation, x="moyenne", y = "Gare_de_depart", color="Gare_de_depart", range_x=[0,mean])
     
+    # mise en forme du graphique
     fig3.update_layout(
         plot_bgcolor=colors['background'],
         paper_bgcolor=colors['background'],
@@ -326,5 +343,8 @@ def display_color(mean):
     return fig3 
 
 if __name__ == '__main__':
-    app.run_server(debug=True)
-    # app.run_server(debug=False)
+
+    #En passant le paramètre à True ou false cela permet entre autre d'afficher ou non le boutton bleu du mode
+    # de debug de Dash
+    # app.run_server(debug=True)
+    app.run_server(debug=False)

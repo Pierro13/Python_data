@@ -1,5 +1,3 @@
-#create the map of the trains stations whith the data from "coords.geojson"
-
 import folium
 import pandas as pd
 import json
@@ -53,31 +51,23 @@ noms_gares = {
 }
 
 def create_map():
-    #read the data from geojson files
     with open("coords.geojson") as f:
         geodata = json.load(f)
 
-    #import tes data from csv
     data = pd.read_csv("data.csv", sep=";")
     data.rename(columns=nouveaux_noms, inplace=True)
 
     stations = data["Gare_de_depart"]
     nombre_apparition = stations.value_counts()
     stations_filtree = nombre_apparition.loc[nombre_apparition >= 100]
-    # print("stations_filtree = ", stations_filtree)
-    # print("\n")
-    # print(type(stations_filtree))
-    # print("\n")
     stations_corigee = stations_filtree.rename(noms_gares)
-    # print("stations_corigee = ", stations_corigee)
 
-    #Create the map
+
     map = folium.Map(location=[46.94638,2.213749], tiles='OpenStreetMap', zoom_start=6)
 
     deja_fait = []
     not_in = {}
 
-    #Create the markers
     for i in range(len(geodata['features'])):
 
         # if geodata['features'][i]['properties']['commune'] in stations_corigee and geodata['features'][i]['properties']['commune'] not in deja_fait:
@@ -97,7 +87,6 @@ def create_map():
         else:
             not_in[geodata['features'][i]['properties']['commune']] = geodata['features'][i]['properties']['commune']
 
-    #Save the map
     map.save(outfile='gare.html')
     
     gare_index = stations_filtree.index
