@@ -1,0 +1,6 @@
+dash
+numpy
+plotly-express
+pandas
+folium
+urllib3
