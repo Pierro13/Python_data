@@ -9,8 +9,9 @@ import random
 #import de notre fichier map_gares.py qui nous permets de créer la map et nous retourne la liste des gares les plus fréquentées
 import map_gares
 
-#on crée notre app
+#on crée notre app et on lui donne un titre
 app = Dash(__name__)
+app.title = "SNCF - Dashboard"
 
 #on crée un dictionnaire qui nous permettra de renommer les colonnes de notre dataframe
 nouveaux_noms = {
