@@ -80,33 +80,27 @@ def create_map():
     #Create the markers
     for i in range(len(geodata['features'])):
 
-        if geodata['features'][i]['properties']['commune'] in stations_corigee and geodata['features'][i]['properties']['commune'] not in deja_fait:
+        # if geodata['features'][i]['properties']['commune'] in stations_corigee and geodata['features'][i]['properties']['commune'] not in deja_fait:
+        if geodata['features'][i]['properties']['commune'] in stations_corigee:
             deja_fait.append(geodata['features'][i]['properties']['commune'])
         
             if geodata['features'][i]['properties']['libelle'] == "Chessy":
                 deja_fait.pop()
                 continue
 
+            info = geodata['features'][i]['properties']['commune'] + "\n - \n" + geodata['features'][i]['properties']['libelle']
+
             folium.Marker([geodata['features'][i]['geometry']['coordinates'][1],
                             geodata['features'][i]['geometry']['coordinates'][0]],
-                            popup=geodata['features'][i]['properties']['commune']
+                            popup=info
             ).add_to(map)
         else:
             not_in[geodata['features'][i]['properties']['commune']] = geodata['features'][i]['properties']['commune']
 
-    # print("\n")
-    # print("deja_fait = ", deja_fait)
-
     #Save the map
     map.save(outfile='gare.html')
-
-    # print(type(stations_filtree))
+    
     gare_index = stations_filtree.index
-    # print(gare_index)
-    # print(type(gare_index))
-
-    # for name in gare_index:
-    #     print(name)
 
     return gare_index
 

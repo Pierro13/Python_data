@@ -1,8 +1,25 @@
 h1 {
-    color: red;
+    color: #FF3967;
     margin: 0;
 }
 
 body {
     margin: 0;
+    background-color: #C4F5FC;
+    font-family: 'Open sans', sans-serif;
+    font-size: 18px;
+}
+
+Div {
+    background-color: #C4F5FC;
+}
+
+P {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+footer {
+    bottom: 0;
+    width: 100%;
 }

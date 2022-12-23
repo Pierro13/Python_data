@@ -1,11 +1,9 @@
-# Explique comment faire marcher et comment visioner le dashbaord
-# 
-
 import dash
 from dash import Dash, dcc, html, Input, Output
 import numpy as np
 import plotly.express as px
 import pandas as pd
+import random
 
 import map_gares
 
@@ -41,8 +39,9 @@ nouveaux_noms = {
 }
 
 colors = {
-    'background': '#000000',
-    'text': '#7FDBFF'
+    'background': '#C4F5FC',
+    'text': '#000000',
+    'axis' : '#000000'
 }
 
 data = pd.read_csv('data.csv', sep=';', header=0)
@@ -61,34 +60,50 @@ compteur = data['Gare_de_depart'].value_counts()
 compteur2 = compteur.where(compteur > 100)
 compteur2 = compteur2.dropna()
 
-figure = px.bar(y = compteur2, x = compteur2.index, barmode="group",
-                title="Nombre de trajets par gare de départ Pour les gares ayant plus de 100 trajets au départ")
+figure = px.bar(y = compteur2, x = compteur2.index, barmode="group")    
 
 figure.update_layout(
     plot_bgcolor=colors['background'],
     paper_bgcolor=colors['background'],
     font_color=colors['text'],
     xaxis_title='Noms des gares',
-    yaxis_title='Nombre de trajets'
+    yaxis_title='Nombre de trajets',
+    title="Nombre de trajets par gare de départ pour les gares ayant plus de 100 trajets au départ",
+    xaxis = dict(linecolor=colors['axis']),
+    yaxis = dict(linecolor=colors['axis']),
 )
+
+figure.update_traces(marker_line_color='black', marker_line_width=1)
+
+random_colors = [random.choice(['red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'violet']) for i in range(len(data))]
+figure.update_traces(marker_color=random_colors)
 
 ########### DEUXIEME GRAPH ###########
 
 data['tps_arrondi'] = data['Duree_moyenne_du_trajet'].apply(lambda x: x/60)
 tps_arrondi = data['tps_arrondi'].value_counts()
 
-fig2 = px.histogram(data, x="tps_arrondi", labels={"tps_arrondi":"Temps de trajet (en heures)", "y" : "Nombre de trajets"})
+fig = px.histogram(data, x="tps_arrondi", labels={"tps_arrondi":"Temps de trajet (en heures)", "y" : "Nombre de trajets"})
 
-fig2.update_layout(
+fig.update_layout(
     plot_bgcolor=colors['background'],
     paper_bgcolor=colors['background'],
     font_color=colors['text'],
-    title="Temps de trajet arrondi à l'heure"
+    xaxis_title='Temps en heures',
+    yaxis_title='Nombre de trajets',
+    title="Temps de trajet arrondi à l'heure",
+    xaxis = dict(linecolor=colors['axis']),
+    yaxis = dict(linecolor=colors['axis'])
 )
+
+fig.update_traces(marker_line_color='black', marker_line_width=2)
+
 ######################################
 ########### STRUCTURE HTML ###########
 
-app.layout = html.Div(style={'backgroundColor': colors['background']}, children=[
+app.layout = html.Div(
+    style={'backgroundColor': colors['background']},
+    children=[
     html.H1(
         children='Python Dashboard',
         style={
@@ -96,9 +111,12 @@ app.layout = html.Div(style={'backgroundColor': colors['background']}, children=
         }
     ),
 
-    html.Div(children='Traitement d\'un data set sur les trains', style={
+    html.Div(children='Traitement d\'un data set sur les trains', 
+    style={
         'textAlign': 'center',
-        'color': colors['text']
+        'color': colors['text'],
+        'backgroundColor': colors['background'],
+        'margin-bottom': '35px'
     }),
 
     ########### PREMIER GRAPH ###########
@@ -108,18 +126,29 @@ app.layout = html.Div(style={'backgroundColor': colors['background']}, children=
         figure=figure
     ),
 
-    html.Div(style={'height': '80px'}),
+    html.Div(
+        style={
+            'height': '80px'
+            }
+        ),
 
     ########### MAP ###########
 
     html.Div(
         children=[
-            "Map des gares ayant plus de 100 trajets au départ",
+            "Cette carte ci dessous représente toutes les gares dans les villes ayant au moins une gare importante.",
             html.Br(),
-            "Cliquez sur une gare pour afficher les informations",
+            "Une gare est considérée comme importante si elle a plus de 100 trajets au départ. (cf graphique ci dessus)",
+            html.Br(),
+            "Cliquez sur une gare pour afficher ses inoformations : Ville - libellé de la gare",
             html.Br()
             ],
-        style={'textAlign': 'center', 'color': '#7FDBFF', 'display': 'block'}
+        style={
+            'textAlign': 'center', 
+            'color': colors['text'], 
+            'display': 'block',
+            'margin-bottom': '20px'
+        }
     ),
 
     html.Div(
@@ -132,34 +161,99 @@ app.layout = html.Div(style={'backgroundColor': colors['background']}, children=
             )
         ],
         className='row',
-        style={'display': 'flex', 'justify-content': 'center', 'color': '#7FDBFF'}
+        style={
+            'display': 'flex', 
+            'justify-content': 'center', 
+            'color': colors['text'],
+            'backgroundColor': colors['background'],
+            'margin-bottom': '30px'
+        }
     ),
 
-    html.Div(
-        children=[
-            "Pour plus de clareté sur la carte, les gares on été regroupées par villes",
-            html.Br(),
-            "C'est pour quoi a Paris par exemple, il n'y a qu'une seul gare",
-            html.Br()
-            ],
-        style={'textAlign': 'center', 'color': '#7FDBFF', 'display': 'block'}
-    ),
+    # html.Div(
+    #     children=[
+    #         "Pour plus de clareté sur la carte, les gares on été regroupées par villes",
+    #         html.Br(),
+    #         "C'est pour quoi a Paris par exemple, il n'y a qu'une seul gare",
+    #         html.Br()
+    #         ],
+    #     style={
+    #         'textAlign': 'center', 
+    #         'color': colors['text'], 
+    #         'display': 'block',
+    #         'backgroundColor': colors['background'],
+    #         'margin-bottom': '20px',
+    #         'margin-top': '20px'
+    #         }
+    # ),
 
     ########### DEUXIEME GRAPH ###########
 
     dcc.Graph(
         id='example-graph',
-        figure=fig2
+        figure=fig
+    ),
+
+    html.Div(
+        children=[
+            "Le graphe ci dessus repésente le temps de trajet arrondi à l'heure pour l'ensemble des trajets présent dans le dataset : \"data.csv\"",
+            html.Br(),
+            "On peut voir que la majorité des trajets durent entre 1h et 4h et même plus précisément entre 1h et 2h.",
+            ],
+        style={
+            'textAlign': 'center', 
+            'color': colors['text'], 
+            'display': 'block',
+            'backgroundColor': colors['background'],
+            'margin-bottom': '20px'
+            }
     ),
 
     ########### TROISIEME GRAPH ###########
+
+    html.Div(
+        children=[
+            "Le graphe ci dessous repésente ..............................",
+            html.Br(),
+            "On peut voir ................................................",
+            ],
+        style={
+            'textAlign': 'center', 
+            'color': colors['text'], 
+            'display': 'block',
+            'backgroundColor': colors['background'],
+            'margin-top': '60px'
+            }
+    ),
 
     dcc.Graph(
         id='example-graph3'
     ),
     html.P("Mean:"),
-    dcc.Slider(id="mean", min=0, max=150, value=150, 
-        marks={0: '0', 150: '150'})
+    dcc.Slider(
+        id="mean", 
+        min=0, 
+        max=150, 
+        value=150, 
+        marks={0: '0', 150: '150'}
+    ),
+
+    html.Footer(
+    children=[
+        html.Div(
+            children=[
+                "Projet réalisé par : Pierre ALLA et Ahmed Rais - Date : 2021 - Matière : Python"
+                ],
+                style={
+                    'textAlign': 'center',
+                    'color': colors['text'],
+                    'backgroundColor': colors['background'],
+                    'margin-top': '20px',
+                    'margin-bottom': '5px'
+                }
+            )
+        ]
+    )
 ])
 #######################################
 ########### TROISIEME GRAPH ###########
@@ -176,8 +270,20 @@ def display_color(mean):
     circulation["moyenne"] = circulation.apply(lambda x: (x.Retard_moyen_des_trains_en_retard_au_depart / x.Nombre_de_trains_en_retard_au_depart)*100, axis = 1)
     circulation = circulation[ circulation["moyenne"] < mean ]
 
-    fig3 = px.histogram(circulation, x="moyenne", y = "Gare_de_depart", color="Gare_de_depart", range_x=[0,mean], title="Pourcentage de trains en retard par nombre de trains")
-    return fig3
+    fig3 = px.histogram(circulation, x="moyenne", y = "Gare_de_depart", color="Gare_de_depart", range_x=[0,mean])
+    
+    fig3.update_layout(
+        plot_bgcolor=colors['background'],
+        paper_bgcolor=colors['background'],
+        font_color=colors['text'],
+        xaxis_title='Nom des gares',
+        yaxis_title='Moyenne',
+        title="Pourcentage de trains en retard par nombre de trains",
+        xaxis = dict(linecolor=colors['axis']),
+        yaxis = dict(linecolor=colors['axis'])
+    )
+    
+    return fig3 
 
 if __name__ == '__main__':
     app.run_server(debug=True)
