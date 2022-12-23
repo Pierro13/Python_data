@@ -119,7 +119,64 @@ app.layout = html.Div(
         'margin-bottom': '35px'
     }),
 
+    ########### PRESENATION DATASET ###########
+
+    html.Hr(),
+
+    html.Div(
+        children=[
+            "Ce dashboard est réalisé à partir de deux data set de la SNCF sur les trains en France.",
+            html.Br(),
+            html.Br(),
+            " Le fichier CSV contient des informations sur la régularité des trains TGV sur une période donnée,"
+            " chaque ligne représentant les données de régularité pour un mois donné.",
+            html.Br(),
+            "Le fichier GeoJSON en question contient une liste de gares en France, avec des informations sur leur"
+            " nom, leur localisation géographique (latitude et longitude), leur code de gare, leur type de gare"
+            " (par exemple, TGV, TER, RER, etc.) ainsi que d'autres détails. Chaque gare est représentée sous la forme d'un"
+            " objet JSON avec ces différentes propriétés.",
+            html.Br(),
+            html.Br(),
+            " Ce data set contient les informations suivantes :",
+            html.Br(),
+            "Gare de départ - Gare d'arrivée - Durée moyenne du trajet - Nombre de trains au départ - Nombre de trains à l'arrivée"
+            " - Nombre de trains annulés - Nombre",
+            html.Br(),
+            html.Br(),
+            "Il contient d'autres colonnes avec des pourcentages en fonction de certaines données. Comme par exemple la régularité des trains,"
+            " ce qui désigne" 
+            " le pourcentage de trains qui arrivent à l'heure à leur destination finale. Cette donnée est calculée en comparant le nombre"
+            " de trains arrivés à l'heure à leur destination finale au nombre total de trains prévus pour cette ligne."
+        ],
+        style={
+            'textAlign': 'left',
+            'color': colors['text'],
+            'display': 'block',
+            'margin-bottom': '20px'
+        }
+    ),
+
+    html.Hr(),
+
     ########### PREMIER GRAPH ###########
+
+    html.Div(
+        children=[
+            "Ce graphique représente le nombre de trajets par gare de départ pour les gares ayant plus de 100 trajets au départ.",
+            html.Br(),
+            "Cliquez sur une barre pour afficher les informations de la gare : Ville - Nombre de train au départ",
+            html.Br(),
+            "On remarque que la gare de Paris Gare de Lyon est la gare la plus importante avec plus de 1474 trajets au départ.",
+            html.Br()
+            ],
+        style={
+            'textAlign': 'left', 
+            'color': colors['text'], 
+            'display': 'block',
+            'margin-bottom': '20px',
+            'margin-top': '50px',
+        }
+    ),
 
     dcc.Graph(
         id='graph-test',
@@ -287,3 +344,4 @@ def display_color(mean):
 
 if __name__ == '__main__':
     app.run_server(debug=True)
+    # app.run_server(debug=False)
