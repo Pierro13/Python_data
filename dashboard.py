@@ -271,9 +271,11 @@ app.layout = html.Div(
 
     html.Div(
         children=[
-            "Le graphe ci dessous repésente ..............................",
+            "Le graphe ci dessous représente le pourcentage de trains en retards par nombre de trains pour chaque gares",
             html.Br(),
-            "On peut voir ................................................",
+            "On peut voir que certaines gares on plus de retard que d'autres, le calcul du pourcentage de retard se fait en fonction du nombre de trains",
+            html.Br(),
+            "Donc par exemple si une gare n'a que 3 trains qui partent, et que les 3 trains partent en retard alors son pourcentage de trains en retard sera de 100%",
             ],
         style={
             'textAlign': 'center', 
@@ -287,13 +289,13 @@ app.layout = html.Div(
     dcc.Graph(
         id='example-graph3'
     ),
-    html.P("Mean:"),
+    html.P("Réglage du pourcentage maximum de retards :"),
     dcc.Slider(
         id="mean", 
         min=0, 
-        max=150, 
-        value=150, 
-        marks={0: '0', 150: '150'},
+        max=100, 
+        value=100, 
+        marks={0: '0', 100: '100'},
         tooltip={"placement": "bottom", "always_visible": True}
     ),
 
@@ -342,8 +344,8 @@ def display_color(mean):
         plot_bgcolor=colors['background'],
         paper_bgcolor=colors['background'],
         font_color=colors['text'],
-        xaxis_title='Nom des gares',
-        yaxis_title='Moyenne',
+        xaxis_title='Pourcentage de trains en retard',
+        yaxis_title='Gares',
         title="Pourcentage de trains en retard par nombre de trains",
         xaxis = dict(linecolor=colors['axis']),
         yaxis = dict(linecolor=colors['axis'])
