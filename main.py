@@ -164,7 +164,23 @@ app.layout = html.Div(
             "Il contient d'autres colonnes avec des pourcentages en fonction de certaines données, comme par exemple la régularité des trains,"
             " ce qui désigne" 
             " le pourcentage de trains qui arrivent à l'heure à leur destination finale. Cette donnée est calculée en comparant le nombre"
-            " de trains arrivés à l'heure à leur destination finale au nombre total de trains prévus pour cette ligne."
+            " de trains arrivés à l'heure à leur destination finale au nombre total de trains prévus pour cette ligne.",
+            html.Br(),
+            html.Br(),
+            html.Br(),
+            html.B(
+            "Il est important de comprendre que dans le dataset les données sont présentées par liaisons. Une liaison est un trajet entre deux"
+            " gares. Par exemple, la liaison Paris Gare de Lyon - Lyon Part-Dieu est un trajet entre la gare de Paris Gare de Lyon et la gare de Lyon Part-Dieu."
+            " Ainsi, le dataset contient des informations sur les trajets entre toutes les gares de France, Mais aussi certaines gare étrangères"
+            " comme Madrid par exemple."
+            ),
+            html.Br(),
+            html.Br(),
+            html.B(
+            "Le fait que les données soit par rapport aux liaisions et non à chaque trajet est important car cela signifie que"
+            " un trajet entre Paris Gare de Lyon et Marseille Saint-Charles est compté une seule fois par mois, alors que si on"
+            " comptait les trajets individuels, il y aurait beaucoup plus de trajets redondants."
+            )
         ],
         style={
             'textAlign': 'left',
