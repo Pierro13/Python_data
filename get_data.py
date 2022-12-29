@@ -25,4 +25,4 @@ except FileNotFoundError:
     fichier2 = 'coords.geojson'
     request.urlretrieve(url2, fichier2)
 
-print("Les deux fichiers sont bien téléchargés et à jour !")
+print("Les deux datasets sont bien téléchargés et à jour !")
