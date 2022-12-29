@@ -271,9 +271,9 @@ app.layout = html.Div(
 
     html.Div(
         children=[
-            "Le graphe ci dessous représente le pourcentage de trains en retards par nombre de trains pour chaque gares",
+            "Le graphe ci dessous représente le pourcentage de trains en retard par nombre de trains pour chaque gare",
             html.Br(),
-            "On peut voir que certaines gares on plus de retard que d'autres, le calcul du pourcentage de retard se fait en fonction du nombre de trains",
+            "On peut voir que certaines gares ont plus de retard que d'autres, le calcul du pourcentage de retard se fait en fonction du nombre de trains",
             html.Br(),
             "Donc par exemple si une gare n'a que 3 trains qui partent, et que les 3 trains partent en retard alors son pourcentage de trains en retard sera de 100%",
             ],
@@ -298,13 +298,6 @@ app.layout = html.Div(
         marks={0: '0', 100: '100'},
         tooltip={"placement": "bottom", "always_visible": True}
     ),
-
-    # dcc.Slider(
-    #     0, 10, 1, 
-    #     value=5, 
-    #     marks=None,
-    #     tooltip={"placement": "bottom", "always_visible": True}
-    # ),
 
     html.Footer(
     children=[
@@ -357,5 +350,5 @@ if __name__ == '__main__':
 
     #En passant le paramètre à True ou false cela permet entre autre d'afficher ou non le boutton bleu du mode
     # de debug de Dash
-    app.run_server(debug=True)
-    # app.run_server(debug=False)
+    # app.run_server(debug=True)
+    app.run_server(debug=False)

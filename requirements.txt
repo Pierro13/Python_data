@@ -4,3 +4,5 @@ plotly-express
 pandas
 folium
 urllib3
+ipython
+os
