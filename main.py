@@ -1,3 +1,110 @@
+Pierro
+#6279
+💻Segmentation Fault
+
+Pierro — 23/12/2022 16:22
+et si tu peux tt relire pour vérifier que j'ai pas fait de fautes c'est top
+Raisahmed — 23/12/2022 16:42
+ok ça marche je relirais et j'ajouterais ce que tu m'as dis d'ajouter concernant mon graphe
+Pierro — 23/12/2022 16:43
+Ok tu gères tes ne boss
+Raisahmed — 24/12/2022 12:02
+Normalement j'ai push essaye de voir si tu peux récupérer ce que j'ai fait
+Pierro — 24/12/2022 13:29
+ouais c'est clean
+je pense que le seul truc qu'on pourrait changer c'est sur le graph des temps moyen dans le tooltip changer l'affichage de l'heure
+genre passer de 1.6-1.69h à 1h40-1h49
+fin je sais pas si c'est ca le bon calcul
+mais c'est une idée que j'ai eu
+Raisahmed — 24/12/2022 14:20
+Ouais en vrai on pourrait faire ça après c'est un peu compliqué parce que du coup les trucs à 1.70h faut les convertir et jsp trop comment on s'y prend
+Pierro — 24/12/2022 15:24
+Ouais bv
+Je pense qu'on a fini mais je vais voir si jamais on a pas de nouvelle idée
+Raisahmed — 24/12/2022 21:56
+Désolé de te répondre que maintenant mais ouais en vrai si t’as des idées de trucs à rajouter vas y moi pour l’instant je pense c’est ok
+Pierro — 25/12/2022 00:06
+tkt tkt y a le temps bg 
+Pierro — Hier à 11:56
+ouais bg
+on avait pas vu mais y a encore un truc a faire :
+https://perso.esiee.fr/~courivad/3IPR2/miniprojetdata.html#miniprojet:~:text=travail%20sera%20%C3%A9valu%C3%A9.-,Remise%20du%20travail,-%C2%B6
+faut écrire le readme.md avec plusieurs sections
+j'ai pas mal commencé mais chaud que tu avances dessus aussi
+j'ai tout push
+Raisahmed — Hier à 11:59
+j'ai lu vite fait ce qu'il devait y avoir dans le readme maintenant je comprends toi y'a quoi comme trucs que t'as mis dedans que je sache ce qu'il me reste à faire ?
+Pierro — Hier à 12:00
+Le Developper Guide j'ai pas tour fait
+Et le reste faudrait que tu corrige / ajoute des trucs si tu vois des trucs qui manque
+Raisahmed — Hier à 12:03
+Ok bah vas y pas de soucis je fini le Developper Guide c'est le truc que j'ai le mieux compris et je regarderais pour le reste je te dis si ça peut être amélioré !
+Pierro — Hier à 12:14
+Ouais parfait 
+Et après regarde sur le site en générale si on a bien tout fait
+Raisahmed — Hier à 12:14
+ouais c'est sûr faut être sur qu'on a tout bien fait et qu'il y ai pas un truc bizarre
+Pierro — Hier à 12:19
+Ye
+Prcq y a plein de ptit truc en plus a faire
+Raisahmed — Hier à 12:19
+comme quoi ?
+Pierro — Hier à 12:20
+Le readme et apres pour le fichiers à joindre et le git je crois que c'est bon
+Raisahmed — Hier à 12:20
+ah donc faut juste faire le readme ?
+Pierro — Hier à 12:20
+Je crois
+Check le reste
+Raisahmed — Hier à 12:27
+bah je viens de tout lire il me semble que c'est bon il faut juste que moi je rajoute des commentaires sur mes parties de codes pour expliquer tout ça et faire le readme sinon c'est bon
+Pierro — Hier à 12:27
+Ok parfait !
+Pierro — Hier à 16:24
+okay bg tu me diras quand t'auras ajouter ta parti comme ça je relirai tout (ça presse pas tkt)
+faut juste qu'on fini demain pour avoir un jour de rab au cas ou
+Raisahmed — Hier à 16:26
+Ok bah je fini le taff à 17h le temps que je rentre chez moi et que je me mette bien il sera surement 19h donc ce soir j'essaye de faire tout ça si je suis pas trop k.o mais si je suis k.o je te préviendrais avant mais t'as raison c'est mieux de faire ça ce soir pour laissé un jour en plus on sait jamais
+c'est pour quand max le dépôt ?
+c'est samedi le max ?
+Pierro — Hier à 16:41
+ahhh ouais tu taff
+le rendu c'est le samedi 31
+dc on fini ce soir / demain et on vise de rendre demain soir comme ca si besoin on a samedi en rab
+Raisahmed — Hier à 16:42
+ok ok ça marche je vais essayer ce soir de finir t'façon normalement ça va pas être long le readme et les commentaires donc vas y on fait comme ça 
+Pierro — Hier à 16:43
+ouais c'est rapide de fou
+Raisahmed — Hier à 20:45
+Je viens de me poser devant le pc je sais pas si j'aurais le temps de finir ce soir parce que je dois me coucher tôt du coup mais je vais essayer d'avancer du mieux que je peux
+Raisahmed — Hier à 22:54
+ 
+#imports généraux
+import dash
+from dash import Dash, dcc, html, Input, Output
+import numpy as np
+import plotly.express as px
+import pandas as pd
+Afficher plus
+main.py
+17 Ko
+désolé mec je te met les trucs que j'ai modifié ici parce que j'arrive pas à push
+je sais pas pourquoi
+j'ai modifié quelques trucs sur le main nottament des commentaires
+et sur le README j'ai fini le developpeur guice 
+# Python dashboard
+
+Autheurs : Pierre ALLA - Ahmed RAIS
+
+Classe : E3 FI groupe 3
+
+Afficher plus
+README.md
+8 Ko
+Pierro — Aujourd’hui à 10:38
+ok parfait
+je m'ccupe de rajouter tes trucs
+﻿
 #imports généraux
 import dash
 from dash import Dash, dcc, html, Input, Output
@@ -137,7 +244,7 @@ app.layout = html.Div(
         'margin-bottom': '35px'
     }),
 
-    ########### PRESENATION DATASET ###########
+    ########### PRESENTATION DATASET ###########
 
     html.Hr(),
 
@@ -315,6 +422,9 @@ app.layout = html.Div(
         tooltip={"placement": "bottom", "always_visible": True}
     ),
 
+
+########### BAS DE PAGE ###########
+
     html.Footer(
     children=[
         html.Div(
@@ -332,8 +442,9 @@ app.layout = html.Div(
         ]
     )
 ])
+
 #######################################
-########### TROISIEME GRAPH ###########
+########### TROISIEME GRAPH TRAITEMENT ###########
 
 @app.callback(
     Output("example-graph3", "figure"), 
@@ -363,7 +474,6 @@ def display_color(mean):
     return fig3 
 
 if __name__ == '__main__':
-
     #En passant le paramètre à True ou false cela permet entre autre d'afficher ou non le boutton bleu du mode
     # de debug de Dash
     # app.run_server(debug=True)
