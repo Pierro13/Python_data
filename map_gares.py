@@ -64,8 +64,6 @@ def create_map():
     stations = data["Gare_de_depart"]
     nombre_apparition = stations.value_counts()
     stations_filtree = nombre_apparition.loc[nombre_apparition >= 100]
-    stations_corigee = stations_filtree.rename(noms_gares)
-
 
     map = folium.Map(location=[46.94638,2.213749], tiles='OpenStreetMap', zoom_start=6)
 

@@ -231,7 +231,7 @@ app.layout = html.Div(
             html.Br(),
             "Une gare est considérée comme importante si elle a plus de 100 trajets au départ. (cf graphique ci dessus)",
             html.Br(),
-            "Cliquez sur une gare pour afficher ses inoformations : Ville - libellé de la gare",
+            "Cliquez sur une gare pour afficher ses informations : Ville - libellé de la gare",
             html.Br()
             ],
         style={
@@ -287,7 +287,7 @@ app.layout = html.Div(
 
     html.Div(
         children=[
-            "Le graphe ci dessous représente le pourcentage de trains en retard par nombre de trains pour chaque gare",
+            "Le graphique ci-dessous représente le pourcentage de trains en retard par rapport au nombre total de trains pour chaque gare",
             html.Br(),
             "On peut voir que certaines gares ont plus de retard que d'autres, le calcul du pourcentage de retard se fait en fonction du nombre de trains",
             html.Br(),
