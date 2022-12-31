@@ -182,7 +182,7 @@ app.layout = html.Div(
             'color': colors['text'],
             'display': 'block',
             'margin-bottom': '20px',
-            'margin-left': '15px'
+            'margin-left': '10px'
         }
     ),
 
@@ -205,7 +205,7 @@ app.layout = html.Div(
             'display': 'block',
             'margin-bottom': '20px',
             'margin-top': '50px',
-            'margin-left': '15px'
+            'margin-left': '10px'
         }
     ),
 
@@ -291,12 +291,12 @@ app.layout = html.Div(
             "Donc par exemple si une gare n'a que 3 trains qui partent, et que les 3 trains partent en retard alors son pourcentage de trains en retard sera de 100%",
             ],
         style={
-            'textAlign': 'center', 
+            'textAlign': 'left', 
             'color': colors['text'], 
             'display': 'block',
             'backgroundColor': colors['background'],
             'margin-top': '60px',
-            'margin-left': '15px'
+            'margin-left': '10px'
             }
     ),
 
