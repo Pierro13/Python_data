@@ -169,17 +169,12 @@ app.layout = html.Div(
             html.Br(),
             html.Br(),
             html.B(
-            "Il est important de comprendre que dans le dataset les données sont présentées par liaisons. Une liaison est un trajet entre deux"
-            " gares. Par exemple, la liaison Paris Gare de Lyon - Lyon Part-Dieu est un trajet entre la gare de Paris Gare de Lyon et la gare de Lyon Part-Dieu."
-            " Ainsi, le dataset contient des informations sur les trajets entre toutes les gares de France, Mais aussi certaines gare étrangères"
-            " comme Madrid par exemple."
-            ),
-            html.Br(),
-            html.Br(),
-            html.B(
-            "Le fait que les données soit par rapport aux liaisions et non à chaque trajet est important car cela signifie que"
-            " un trajet entre Paris Gare de Lyon et Marseille Saint-Charles est compté une seule fois par mois, alors que si on"
-            " comptait les trajets individuels, il y aurait beaucoup plus de trajets redondants."
+            "Important : dans le dataset (data.csv), les données sont présentées par liaisons. Une liaison est un trajet défini par une"
+            " origine et une destination. Par exemple, la liaison Paris Gare de Lyon - Lyon Part-Dieu terminus est un trajet entre la gare"
+            " de Paris Gare de Lyon et la gare de Lyon Part-Dieu. Les gares intermédiaires ne sont pas comptées dans le dataset. Ainsi on ne"
+            " compte pas le nombre de trajets réalisés mais une seule liaison avec une origine et une destination par mois. Le dataset"
+            " contient des informations sur les liaisons entre toutes les gares de France, mais aussi certaines gares étrangères comme"
+            " Madrid par exemple."
             )
         ],
         style={
