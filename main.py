@@ -367,5 +367,5 @@ def display_color(mean):
 if __name__ == '__main__':
     #En passant le paramètre à True ou false cela permet entre autre d'afficher ou non le boutton bleu du mode
     # de debug de Dash
-    app.run_server(debug=True)
-    # app.run_server(debug=False)
+    # app.run_server(debug=True)
+    app.run_server(debug=False)
