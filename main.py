@@ -181,7 +181,8 @@ app.layout = html.Div(
             'textAlign': 'left',
             'color': colors['text'],
             'display': 'block',
-            'margin-bottom': '20px'
+            'margin-bottom': '20px',
+            'margin-left': '15px'
         }
     ),
 
@@ -204,6 +205,7 @@ app.layout = html.Div(
             'display': 'block',
             'margin-bottom': '20px',
             'margin-top': '50px',
+            'margin-left': '15px'
         }
     ),
 
@@ -293,7 +295,8 @@ app.layout = html.Div(
             'color': colors['text'], 
             'display': 'block',
             'backgroundColor': colors['background'],
-            'margin-top': '60px'
+            'margin-top': '60px',
+            'margin-left': '15px'
             }
     ),
 
@@ -364,5 +367,5 @@ def display_color(mean):
 if __name__ == '__main__':
     #En passant le paramètre à True ou false cela permet entre autre d'afficher ou non le boutton bleu du mode
     # de debug de Dash
-    # app.run_server(debug=True)
-    app.run_server(debug=False)
+    app.run_server(debug=True)
+    # app.run_server(debug=False)
